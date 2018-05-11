@@ -1,43 +1,22 @@
-import os
-from math import sqrt
-
-import solid
-from solid import *
-from solid.utils import down
+# ==================
+#
+# nosecone_threaded_bases.py
+#
+#   License: https://github.com/summerswallow/open-rocketry/blob/master/LICENSE
+#  (c) 2018 Summer Swallow Consulting
+#
+# ==================
 
 from nosecone import NoseConeWithBase
+from threaded import Threaded
 from utils import to_mm, to_inch
+from solid.utils import up, down
+from math import sqrt
+from  solid import cylinder, difference, union
 
 
-class EnglishThread(solid.IncludedOpenSCADObject):
-    """ Hacky Connector for threads.scad library.
-        "use" doesn't survive imports welll"""
-
-    """ This requires the thread library found at http://dkprojects.net/openscad-threads/ """
-
-    def __init__(self, diameter=None, threads_per_inch=None, length=None, internal=None, n_starts=None,
-                 thread_size=None, groove=None, square=None, rectangle=None, angle=None, taper=None, leadin=None,
-                 **kwargs):
-        super(EnglishThread, self).__init__('english_thread',
-                                            {'diameter': diameter, 'threads_per_inch': threads_per_inch,
-                                              'length': length, 'internal': internal, 'n_starts': n_starts,
-                                              'thread_size': thread_size, 'groove': groove, 'square': square,
-                                              'rectangle': rectangle, 'angle': angle, 'taper': taper,
-                                              'leadin': leadin, },
-                                            include_file_path=os.path.join(os.environ.get("OPENSCAD_LIBRARY", "."),
-                                                                            "threads.scad"),
-                                            use_not_include=True, **kwargs)
-
-
-class ThreadedBase(NoseConeWithBase):
-    """ You can refactor this to use a different thread library"""
-
-    def threaded_male_column(self, length, diameter, threads_per_inch):
-        return EnglishThread(length=to_inch(length), diameter=to_inch(diameter), threads_per_inch=threads_per_inch)
-
-    def threaded_female_column(self, length, diameter, threads_per_inch):
-        return EnglishThread(length=to_inch(length), diameter=to_inch(diameter),
-                             threads_per_inch=threads_per_inch, internal=True)
+class ThreadedBase(NoseConeWithBase, Threaded):
+    pass
 
 
 class ThreadedBaseFlat(ThreadedBase):
@@ -48,7 +27,7 @@ class ThreadedBaseFlat(ThreadedBase):
         radius = to_mm(cone.inner_diameter / 2.)
         tooth = to_mm(1. / threads_per_inch * sqrt(3) / 2.)
 
-        self.cone = cone.cone + self.slice(cone.cone, self.thickness) + down(shoulder)(
+        self.cone = cone.cone + self.slice(cone.cone, thickness) + down(shoulder)(
             self.threaded_male_column(length=shoulder,
                                       diameter=radius * 2 - thickness * 2,
                                       threads_per_inch=threads_per_inch)) \
@@ -57,7 +36,9 @@ class ThreadedBaseFlat(ThreadedBase):
                     - down(shoulder)(
             self.threaded_female_column(length=shoulder + thickness, diameter=radius * 2 - thickness * 2,
                                         threads_per_inch=threads_per_inch))
-
+        sectioner = down(shoulder+self.epsilon)(cylinder(h=shoulder+self.epsilon, r=radius)) + cylinder(h=thickness/2, r=radius-thickness-thickness/2. - tooth)+ cylinder(h=thickness, r=radius-thickness-thickness - tooth)
+        self.cone_section1 = self.cone-sectioner
+        self.cone_section2 = self.cone*sectioner
 
 class ThreadedBaseInset(ThreadedBase):
     def __init__(self, cone, shoulder=None, thickness=None, threads_per_inch=6):
@@ -98,3 +79,57 @@ class ThreadedBaseOutset(ThreadedBase):
                     - down(shoulder)(
             self.threaded_female_column(length=shoulder + offset, diameter=radius * 2 - thickness * 2,
                                         threads_per_inch=threads_per_inch))
+
+class ScrewInBase(ThreadedBase):
+    def __init__(self, cone, shoulder=None, thickness=None, threads_per_inch=6, thread_height=None, thread_diameter=None):
+        super(ScrewInBase, self).__init__(cone, shoulder, thickness)
+        shoulder = to_mm(self.shoulder)
+        thickness = to_mm(thickness, self.thickness)
+        radius = to_mm(cone.inner_diameter / 2.)
+        thread_height = to_mm(thread_height, self.length/3)
+        thread_diameter = to_mm(thread_diameter,cone.inner_diameter/2.)
+        tooth = to_mm(1. / threads_per_inch * sqrt(3) / 2.)
+
+        self.cone = (cone.cone + self.slice(cone.cone, thread_height)) - self.threaded_female_column(length = thread_height, diameter=thread_diameter,
+                                                                                                    threads_per_inch=threads_per_inch)
+
+        self.mate = union()(down(shoulder)(cylinder(h=shoulder, r=radius)) - down(shoulder-thickness)(cylinder(h=shoulder-thickness*2, r=radius-thickness)),
+                            self.threaded_male_column(length = thread_height, diameter=thread_diameter,
+                                                      threads_per_inch=threads_per_inch)) - down(thickness)(cylinder(h=thread_height+thickness,r=thread_diameter/2-thickness-tooth))
+
+class ScrewInBaseWithScrewHole(ScrewInBase):
+    def __init__(self, cone, shoulder=None, thickness=None, threads_per_inch=6, thread_height=None, thread_diameter=None, screw_length=None, screw_diameter=None, screw_size=None):
+        super(ScrewInBaseWithScrewHole, self).__init__(cone, shoulder, thickness, threads_per_inch, thread_height, thread_diameter)
+        radius = to_mm(cone.inner_diameter  / 2)
+
+        shoulder = to_mm(self.shoulder)
+        thickness = to_mm(self.thickness)
+        screw_length = to_mm(screw_length )
+        screw_radius = to_mm(screw_diameter  / 2)
+        if not screw_radius:
+            "get_screw_size"
+
+        self.mate = difference()(union()(self.mate,
+                                         down(shoulder)(cylinder(h=screw_length, r=screw_radius + thickness / 2.)),
+                                         up(min(screw_length - shoulder - thickness, -thickness))(
+                                             cylinder(h=thickness, r=radius))),
+                                 down(shoulder)(cylinder(h=screw_length, r=screw_radius)))
+
+if __name__ == '__main__':
+    """ Generate Examples"""
+    from standard_nosecones import EllipticalNoseCone
+    from nosecone_threaded_bases import *
+    from bodytubes.semroc import bt55
+    import utils
+
+    nc = EllipticalNoseCone(2.75, bodytube=bt55, thickness=1 / 16.0)
+    sib = ScrewInBase(nc, shoulder=0.5, thread_height=0.75, thread_diameter=1.2)
+    sib = ScrewInBaseWithScrewHole(nc, shoulder=0.5, thread_height=0.75, thread_diameter=1.2, screw_diameter=1 / 16., screw_length=0.25)
+
+    array = utils.array(4, to_mm(2), [
+        sib.crosssection(),
+        nc.crosssection(sib.mate),
+        ThreadedBaseFlat(nc, shoulder=0.5).cone_section1,
+        ThreadedBaseFlat(nc, shoulder=0.5).cone_section2])
+    utils.render_to_file(array, "test.scad")
+

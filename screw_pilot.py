@@ -1,3 +1,12 @@
+# ==================
+#
+# screw_pilot.py
+#
+#   License: https://github.com/summerswallow/open-rocketry/blob/master/LICENSE
+#  (c) 2018 Summer Swallow Consulting
+#
+# ==================
+
 screw_pilot = {
     0: dict(diameter=0.06, shank=1 / 16., soft=1 / 64., hard=1 / 32.),
     1: dict(diameter=0.073, shank=5 / 64., soft=1 / 32., hard=1 / 32.),

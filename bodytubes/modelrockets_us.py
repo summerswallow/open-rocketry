@@ -1,0 +1,17 @@
+from . import BodyTube
+
+_2_56 = BodyTube(2.630, 2.560)
+_24mm = BodyTube(1.00, .950)
+_29mm = BodyTube(1.210, 1.140)
+_3_00 = BodyTube(3.1, 3.0)
+_3_90 = BodyTube(4.0, 3.9)
+_5_38 = BodyTube(5.54, 5.38)
+_38mm = BodyTube(1.630, 1.520)
+_54mm = BodyTube(2.26, 2.14)
+bt20 = BodyTube(.736, .710)
+bt5 = BodyTube(.544, .518)
+bt50 = BodyTube(.976, .950)
+bt55 = BodyTube(1.325, 1.283)
+bt60 = BodyTube(1.645, 1.595)
+bt70 = BodyTube(2.217, 2.180)
+bt80 = BodyTube(2.620, 2.558)

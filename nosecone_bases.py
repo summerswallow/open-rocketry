@@ -1,3 +1,12 @@
+# ==================
+#
+# nosecone_bases.py
+#
+#   License: https://github.com/summerswallow/open-rocketry/blob/master/LICENSE
+#  (c) 2018 Summer Swallow Consulting
+#
+# ==================
+
 import os
 from math import sqrt
 
@@ -5,12 +14,8 @@ from flask import Flask
 from solid import *
 from solid.utils import up, down
 
-from bodytubes import semroc_bt5 as bt5
 from nosecone import NoseConeWithBase
 from utils import to_mm, to_inch
-
-
-
 
 MM2IN = 25.4
 
@@ -116,9 +121,10 @@ class HollowBaseCutout(HollowBase):
             union()(self.cone,
                     difference()(
                         down(shoulder - cutout_length)(cylinder(h=thickness, r=radius)),
-                        translate([-radius, -radius, -shoulder + cutout_length])(cube([radius * 2 - cutout_width-thickness,
-                                                                                       2 * radius,
-                                                                                       cutout_length]))),
+                        translate([-radius, -radius, -shoulder + cutout_length])(
+                            cube([radius * 2 - cutout_width - thickness,
+                                  2 * radius,
+                                  cutout_length]))),
                     intersection()(
                         translate([radius - cutout_width - thickness, -chord, -shoulder])(
                             cube([thickness,
@@ -206,12 +212,12 @@ class BaseWithRing(NoseConeWithBase):
             rotate_extrude()(translate([big_radius, 0, 0])(circle(radius)))))
 
 
-
 if __name__ == '__main__':
     """ Generate Examples"""
     from standard_nosecones import EllipticalNoseCone
     from nosecone_threaded_bases import *
     import utils
+    from bodytubes.semroc import bt5
 
     nc = EllipticalNoseCone(0.75, bodytube=bt5, thickness=1 / 16.0, base_height=0.25, blunt_radius=0.125,
                             mid_diameter=.3)

@@ -81,15 +81,18 @@ class StarNoseCone(MorphedNoseCone):
             p = polygon([[0, 0], [inner * cos(alpha - pi / points), inner * sin(alpha - pi / points)],
                          [outer * cos(alpha), outer * sin(alpha)],
                          [inner * cos(alpha + pi / points), inner * sin(alpha + pi / points)]])
-            out.append(MorphedNoseCone(length, p, inner_diameter=self.inner_diameter, outer_diameter=self.outer_diameter,
-                                       thickness=thickness).cone)
+            out.append(
+                MorphedNoseCone(length, p, inner_diameter=self.inner_diameter, outer_diameter=self.outer_diameter,
+                                thickness=thickness).cone)
         self.cone = union()(*out)
 
 
-if __name__=='__main__':
-    from bodytubes import semroc_bt5 as bt5
-    utils.render_to_file(utils.array(2, to_mm(1), [RectangularNoseCone(0.75, bodytube=bt5, thickness=1/16.),
-                                             RectangularNoseCone(0.75, bodytube=bt5, width=.1, depth=.25, thickness=1/16.),
-                                             EllipseNoseCone(0.75, bodytube=bt5, thickness=1/16.),
-                                             StarNoseCone(0.75, bodytube=bt5, thickness=1/16.)]),"examples/morphed_nosecone.scad")
+if __name__ == '__main__':
+    from bodytubes.semroc import bt5
 
+    utils.render_to_file(utils.array(2, to_mm(1), [RectangularNoseCone(0.75, bodytube=bt5, thickness=1 / 16.),
+                                                   RectangularNoseCone(0.75, bodytube=bt5, width=.1, depth=.25,
+                                                                       thickness=1 / 16.),
+                                                   EllipseNoseCone(0.75, bodytube=bt5, thickness=1 / 16.),
+                                                   StarNoseCone(0.75, bodytube=bt5, thickness=1 / 16.)]),
+                         "examples/morphed_nosecone.scad")

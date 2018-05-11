@@ -46,13 +46,13 @@ class RamJetNoseCone(HollowTipNoseCone):
 ''
 if __name__ == '__main__':
     from standard_nosecones import EllipticalNoseCone, ConicalNoseCone, TangentOgiveNoseCone
-    from bodytubes import semroc_bt5 as bt5
+    from bodytubes.semroc import bt5
 
     utils.render_to_file(utils.array(2, to_mm(1), [
-                HollowTipNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, 1.),
-                HollowTipNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, .75),
-                HollowTipNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, .5),
-                RamJetNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, 1., .25, .4),
-                RamJetNoseCone(ConicalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .2, 1., .25, .4),
-                RamJetNoseCone(TangentOgiveNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, 1., .25, .4)]),
+        HollowTipNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, 1.),
+        HollowTipNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, .75),
+        HollowTipNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, .5),
+        RamJetNoseCone(EllipticalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, 1., .25, .4),
+        RamJetNoseCone(ConicalNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .2, 1., .25, .4),
+        RamJetNoseCone(TangentOgiveNoseCone(length=.75, bodytube=bt5, thickness=1 / 16.), .4, 1., .25, .4)]),
                          "examples/hollowtip_nosecones.scad")

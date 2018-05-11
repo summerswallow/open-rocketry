@@ -1,11 +1,22 @@
+# ==================
+#
+# utils.py
+#
+#   License: https://github.com/summerswallow/open-rocketry/blob/master/LICENSE
+#  (c) 2018 Summer Swallow Consulting
+#
+# ==================
+
 from solid import cylinder, scad_render, translate, union
 
 
-def to_mm(v, default=None):
+def to_mm(v, default=None, safe=False):
     if v is None:
         if default is None:
             raise ValueError("Value must be integer")
         v = default
+        if safe:
+            return None
     return v * 25.4
 
 
@@ -43,7 +54,10 @@ def array(width, space, cones):
     iy = 0
     array = []
     for each in cones:
-        array.append(translate([ix * space, iy * space, 0])(each.cone))
+        if hasattr(each, 'cone'):
+            array.append(translate([ix * space, iy * space, 0])(each.cone))
+        else:
+            array.append(translate([ix * space, iy * space, 0])(each))
         ix += 1
         if ix >= width:
             iy += 1

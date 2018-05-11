@@ -1,14 +1,19 @@
+# ==================
+#
+# nosecone_threaded_bases.py
+#
+#   License: https://github.com/summerswallow/open-rocketry/blob/master/LICENSE
+#  (c) 2018 Summer Swallow Consulting
+#
+# ==================
+
 from flask import Flask
-from bodytubes import semroc_bt5 as bt5
-from bodytubes import semroc_bt20 as bt20
 from math import sqrt, atan, acos, cos, sin, fabs, pi
 import os
 from solid import *
 from solid.utils import up, down, left, forward
 
 from nosecone import NoseCone, FunctionBasedNoseCone
-from bodytubes import semroc_bt20 as bt20
-from bodytubes import semroc_bt5 as bt5
 import utils
 MM2IN = 25.4
 
@@ -218,6 +223,8 @@ class PowerSeriesNoseCone(FunctionBasedNoseCone):
 
 
 if __name__ == '__main__':
+    from bodytubes.semroc import bt20
+    from bodytubes.semroc import bt5
     array = utils.array(4, MM2IN, [
         InvertedTangentOgiveNoseCone(0.75, bodytube=bt5, thickness=1 / 16.0, base_height=0.25, blunt_radius=0.125,
                                      mid_diameter=.3),

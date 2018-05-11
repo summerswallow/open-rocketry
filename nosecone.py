@@ -1,3 +1,12 @@
+# ==================
+#
+# nosecone.py
+#
+#   License: https://github.com/summerswallow/open-rocketry/blob/master/LICENSE
+#  (c) 2018 Summer Swallow Consulting
+#
+# ==================
+
 from solid import *
 from solid.utils import up, forward
 
@@ -25,9 +34,18 @@ class NoseCone(object):
             self.outer_diameter = kwargs['bodytube'].outer_diameter
             self.inner_diameter = kwargs['bodytube'].inner_diameter
 
+        self.length = length
+
+
+        if 'scale_bodytube' in kwargs:
+            orig_outer = self.outer_diameter
+            self.outer_diameter = kwargs['scale_bodytube'].outer_diameter
+            self.inner_diameter = kwargs['scale_bodytube'].inner_diameter
+            self.length *= self.outer_diameter / orig_outer
+
+
         self.thickness = thickness
 
-        self.length = length
 
         self.cone = None
 
@@ -43,6 +61,7 @@ class NoseCone(object):
         if object:
             return object * forward(size / 2)(cube(size, center=True));
         return self.cone * forward(size / 2)(cube(size, center=True));
+
 
 class FunctionBasedNoseCone(NoseCone):
     def __init__(self, length, thickness=None, **kwargs):
@@ -83,4 +102,5 @@ class NoseConeWithBase(DerivativeNoseCone):
         self.cone = cone
 
     def slice(self, cone, thickness, offset=0):
+        print cone, thickness, offset
         return hull()(cone * up(offset)(disk(self.outer_diameter * 3, thickness / MM2IN)))
