@@ -18,3 +18,10 @@ Once I fill in my core set of functionality. I will start to fill in documentati
 Consider this an early alpha state.
 
 I welcome issues and pull requests.
+
+### Nose Cones
+
+Work in progress
+
+### Gyroc Scaling
+I've been building scale Gyrocs. Included so far are various scaled nosecones.
