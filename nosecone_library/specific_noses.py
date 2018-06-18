@@ -1,8 +1,8 @@
-from standard_nosecones import EllipticalNoseCone
-from nosecone_bases import HollowBase
-from nosecone_threaded_bases import ThreadedBaseOutset
+from nosecone.standard_nosecones import EllipticalNoseCone
+from nosecone.nosecone_bases import HollowBase
+from nosecone.nosecone_threaded_bases import ThreadedBaseOutset
 from bodytubes import *
-import utils
+from misc import utils
 
 
 class BNC20B(EllipticalNoseCone):

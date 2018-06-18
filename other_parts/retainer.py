@@ -10,9 +10,9 @@
 from solid import difference, cylinder, square, sphere, circle, rotate_extrude, rotate, union
 from solid.utils import up, right
 
-import utils
-from threaded import Threaded
-from utils import to_mm
+from misc import utils
+from misc.threaded import Threaded
+from misc.utils import to_mm
 
 
 class Retainer(Threaded):
@@ -69,5 +69,5 @@ class Retainer(Threaded):
 
 from bodytubes.modelrockets_us import _29mm
 
-utils.render_to_file(Retainer(2, 1, depth=.875, bodytube=_29mm, threads_per_inch=6, cap_diameter=2.25, flange_diameter=4, flange_thickness=1/16., hole_diameter=.5, cap_thickness=1/16.,spine_diameter=1/8., round_radius=1/16., spines=12).cap, "test.scad")
+utils.render_to_file(Retainer(2, 1, depth=.875, bodytube=_29mm, threads_per_inch=6, cap_diameter=2.25, flange_diameter=4, flange_thickness=1 / 16., hole_diameter=.5, cap_thickness=1 / 16., spine_diameter=1 / 8., round_radius=1 / 16., spines=12).cap, "test.scad")
 

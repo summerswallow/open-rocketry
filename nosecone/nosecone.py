@@ -10,7 +10,7 @@
 from solid import *
 from solid.utils import up, forward
 
-from utils import AbstractClassError, disk
+from misc.utils import AbstractClassError, disk, to_mm
 
 MM2IN = 25.4
 
@@ -20,7 +20,7 @@ class NoseCone(object):
                                     nose cones should be centered at the origin 
           This requirements are necessary for modular features to work"""
 
-    epsilon = 0.001
+    epsilon = 0.02
     resolution = 50
 
     def __init__(self, length, thickness=None, **kwargs):
@@ -42,6 +42,7 @@ class NoseCone(object):
             self.outer_diameter = kwargs['scale_bodytube'].outer_diameter
             self.inner_diameter = kwargs['scale_bodytube'].inner_diameter
             self.length *= self.outer_diameter / orig_outer
+            print "New Length: {} in".format(self.length)
 
 
         self.thickness = thickness
@@ -62,6 +63,20 @@ class NoseCone(object):
             return object * forward(size / 2)(cube(size, center=True));
         return self.cone * forward(size / 2)(cube(size, center=True));
 
+    def fittest(self, thickness=3/64., width=0):
+        thickness = to_mm(thickness)
+        width=to_mm(width)
+        outer_radius = to_mm(self.outer_diameter/2.)
+        inner_radius = to_mm(self.inner_diameter/2.)
+
+        print width
+        test = up(thickness)(cylinder(h=thickness, r=inner_radius)) + cylinder(h=thickness, r=outer_radius)
+        if width:
+            test -= cylinder(h=thickness*2, r=outer_radius-width)
+        return test
+        
+                      
+
 
 class FunctionBasedNoseCone(NoseCone):
     def __init__(self, length, thickness=None, **kwargs):
@@ -80,6 +95,8 @@ class FunctionBasedNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _2d_nosecone(length - thickness, radius - thickness, **params)
+            mid_cone = _2d_nosecone(length - thickness/2., radius - thickness/2., **params)
+            self.mid_cone = rotate_extrude()(mid_cone)
         self.cone = rotate_extrude()(nose)
 
     def process_params(kwargs):

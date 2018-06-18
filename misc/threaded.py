@@ -29,7 +29,7 @@ class Threaded(object):
     """ You can refactor this to use a different thread library"""
 
     def threaded_male_column(self, length, diameter, threads_per_inch):
-        return EnglishThread(length=to_inch(length), diameter=to_inch(diameter), threads_per_inch=threads_per_inch)
+        return EnglishThread(length=to_inch(length), diameter=to_inch(diameter)-1/16., threads_per_inch=threads_per_inch)
 
     def threaded_female_column(self, length, diameter, threads_per_inch):
         return EnglishThread(length=to_inch(length), diameter=to_inch(diameter),

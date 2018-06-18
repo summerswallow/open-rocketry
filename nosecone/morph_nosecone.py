@@ -12,9 +12,9 @@ from math import pi, cos, sin, sqrt
 from solid import square, cylinder, hull, scale, linear_extrude, polygon, union, circle, multmatrix, sphere
 from solid.utils import up
 
-import utils
+from misc import utils
 from nosecone import DerivativeNoseCone, NoseCone
-from utils import to_mm
+from misc.utils import to_mm
 
 
 class MorphedNoseCone(NoseCone):

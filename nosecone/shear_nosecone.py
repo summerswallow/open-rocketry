@@ -9,9 +9,9 @@
 
 from solid import multmatrix
 
-import utils
+from misc import utils
 from nosecone import DerivativeNoseCone
-from utils import to_mm
+from misc.utils import to_mm
 
 
 class ShearNoseCone(DerivativeNoseCone):

@@ -41,7 +41,7 @@ def render(object):
             count += 1
         else:
             break
-    return '\n'.join(lines[0:count] + ['$fn=100;'] + lines[count:])
+    return '\n'.join(lines[0:count] + ['$fn=200;'] + lines[count:])
 
 
 def render_to_file(object, file_):

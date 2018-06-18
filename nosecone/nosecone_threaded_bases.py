@@ -8,11 +8,11 @@
 # ==================
 
 from nosecone import NoseConeWithBase
-from threaded import Threaded
-from utils import to_mm, to_inch
+from misc.threaded import Threaded
+from misc.utils import to_mm, to_inch
 from solid.utils import up, down
 from math import sqrt
-from  solid import cylinder, difference, union
+from  solid import cylinder, difference, union, color,intersection
 
 
 class ThreadedBase(NoseConeWithBase, Threaded):
@@ -115,21 +115,56 @@ class ScrewInBaseWithScrewHole(ScrewInBase):
                                              cylinder(h=thickness, r=radius))),
                                  down(shoulder)(cylinder(h=screw_length, r=screw_radius)))
 
+class ThreadedBaseOutsetScrewInBase(ThreadedBase):
+    def __init__(self, cone, shoulder=None, thickness=None, upper_tpi=6, lower_tpi=4,  offset=None, thread_height=None, thread_diameter=None):
+        super(ThreadedBaseOutsetScrewInBase, self).__init__(cone, shoulder, thickness)
+        shoulder = to_mm(self.shoulder)
+        thickness = to_mm(thickness, self.thickness)
+        radius = to_mm(cone.inner_diameter / 2.)
+        offset = to_mm(offset, to_inch(thickness))
+        upper_tooth = to_mm(1. / upper_tpi * sqrt(3) / 2.)
+        lower_tooth = to_mm(1. / lower_tpi * sqrt(3) / 2.)
+        thread_height = to_mm(thread_height, self.length/3)
+        thread_diameter = to_mm(thread_diameter,cone.inner_diameter/2.)
+
+        self.cone = difference () (union()((cone.cone - cylinder(h=offset, r=3 * radius)),
+                                           color("red")(self.slice(cone.cone, thread_height, offset))),
+                                   up(offset-self.epsilon)(self.threaded_female_column(length = thread_height+2*self.epsilon, diameter=thread_diameter,
+                                                               threads_per_inch=upper_tpi)),
+                                   cylinder(h=to_mm(0.25), r=radius-thickness))
+
+        core_radius = min(thread_diameter/2-thickness-upper_tooth, radius - thickness - lower_tooth)
+        lower_thread = down(shoulder)(self.threaded_male_column(length=shoulder + offset, diameter=radius * 2 - thickness * 2.,
+                                                                threads_per_inch=lower_tpi))
+        upper_thread = up(offset)(self.threaded_male_column(length = thread_height, diameter=thread_diameter,
+                                                            threads_per_inch=upper_tpi))
+        self.center_mate = upper_thread+lower_thread+cylinder(h=thickness,r=radius-thickness)-down(shoulder-thickness)(cylinder(h=shoulder+offset+thread_height, r=core_radius))
+
+        self.mate = difference ()(down(shoulder)(cylinder(h=shoulder, r=radius)) + self.slice(cone.cone, offset),
+                                  down(shoulder)(self.threaded_female_column(length=shoulder + offset, diameter=radius * 2 - thickness * 2,
+                                                                             threads_per_inch=lower_tpi)),
+                                  cylinder(h=thickness,r=radius-thickness))
+
 if __name__ == '__main__':
     """ Generate Examples"""
     from standard_nosecones import EllipticalNoseCone
     from nosecone_threaded_bases import *
     from bodytubes.semroc import bt55
-    import utils
+    from bodytubes.modelrockets_us import _3_00
+    from nosecone_library.specific_noses import BNC5V
+    from misc import utils
 
     nc = EllipticalNoseCone(2.75, bodytube=bt55, thickness=1 / 16.0)
+    nc = BNC5V(scale_bodytube=_3_00, thickness = 3/32.)
     sib = ScrewInBase(nc, shoulder=0.5, thread_height=0.75, thread_diameter=1.2)
     sib = ScrewInBaseWithScrewHole(nc, shoulder=0.5, thread_height=0.75, thread_diameter=1.2, screw_diameter=1 / 16., screw_length=0.25)
+    sib = ThreadedBaseOutsetScrewInBase(nc, shoulder=1.5, thread_height=1.0, thread_diameter=2.8)
 
-    array = utils.array(4, to_mm(2), [
+    array = utils.array(4, to_mm(5), [
         sib.crosssection(),
-        nc.crosssection(sib.mate),
-        ThreadedBaseFlat(nc, shoulder=0.5).cone_section1,
-        ThreadedBaseFlat(nc, shoulder=0.5).cone_section2])
+        nc.crosssection(sib.center_mate),
+        nc.crosssection(sib.mate)])
+    #ThreadedBaseFlat(nc, shoulder=0.5).cone_section1,
+    #        ThreadedBaseFlat(nc, shoulder=0.5).cone_section2])
     utils.render_to_file(array, "test.scad")
 

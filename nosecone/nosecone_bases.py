@@ -15,7 +15,7 @@ from solid import *
 from solid.utils import up, down
 
 from nosecone import NoseConeWithBase
-from utils import to_mm, to_inch
+from misc.utils import to_mm, to_inch
 
 MM2IN = 25.4
 
@@ -211,29 +211,3 @@ class BaseWithRing(NoseConeWithBase):
         return down(big_radius + radius)(rotate([90, 0, 0, 0])(
             rotate_extrude()(translate([big_radius, 0, 0])(circle(radius)))))
 
-
-if __name__ == '__main__':
-    """ Generate Examples"""
-    from standard_nosecones import EllipticalNoseCone
-    from nosecone_threaded_bases import *
-    import utils
-    from bodytubes.semroc import bt5
-
-    nc = EllipticalNoseCone(0.75, bodytube=bt5, thickness=1 / 16.0, base_height=0.25, blunt_radius=0.125,
-                            mid_diameter=.3)
-
-    array = utils.array_crosssection(4, MM2IN, [
-        ThreadedBaseOutset(nc, shoulder=0.5),
-        ThreadedBaseFlat(nc, shoulder=0.5),
-        nc.crosssection(ThreadedBaseOutset(nc, shoulder=0.5).mate),
-        BaseWithRing(HollowBaseCutout(nc, shoulder=0.5)),
-
-        BaseWithElbow(HollowBaseCutout(nc, shoulder=0.5)),
-        SolidBaseCutout(nc, shoulder=0.5),
-        HollowBaseCutout(nc, shoulder=0.5),
-        SolidBaseWithScrewHole(nc, shoulder=0.5, screw_diameter=1 / 16., screw_length=0.25),
-        HollowBaseWithScrewHole(nc, shoulder=0.5, screw_diameter=1 / 16., screw_length=0.25),
-        HollowBase(nc, shoulder=0.5),
-        OpenBase(nc, shoulder=0.5), SolidBase(nc, shoulder=0.5), NoBase(nc),
-    ])
-    utils.render_to_file(array, "examples/nosecone_bases.scad")

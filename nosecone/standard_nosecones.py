@@ -14,7 +14,8 @@ from solid import *
 from solid.utils import up, down, left, forward
 
 from nosecone import NoseCone, FunctionBasedNoseCone
-import utils
+from misc import utils
+
 MM2IN = 25.4
 
 
@@ -31,7 +32,7 @@ class EllipticalNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             self.cone -= _solid_nose(length - thickness, radius - thickness)
-
+            self.mid_cone = _solid_nose(length - thickness/2., radius-thickness/2.)
 
 class ConicalNoseCone(NoseCone):
     def __init__(self, length, thickness=None, **kwargs):
@@ -46,6 +47,7 @@ class ConicalNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _solid_nose(length - thickness, radius - thickness)
+            self.mid_cone = _solid_nose(length - thickness/2., radius-thickness/2.)
         self.cone = nose
 
 
@@ -65,6 +67,7 @@ class BiconicNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _solid_nose(length - thickness, radius - thickness, base_height, mid_radius - thickness)
+            self.mid_cone = _solid_nose(length - thickness/2., radius-thickness/2., base_height, mid_radius-thickness/2.)
         self.cone = nose
 
 
@@ -91,6 +94,7 @@ class BluntedConicalNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _solid_nose(length - thickness, radius - thickness, blunt_radius)
+            self.mid_nose = _solid_nose(length - thickness/2., radius - thickness/2., blunt_radius)
         self.cone = nose
 
 
@@ -108,6 +112,8 @@ class TangentOgiveNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _2d_nosecone(length - thickness, radius - thickness)
+            mid_cone = _2d_nosecone(length - thickness/2., radius - thickness/2.)
+            self.mid_cone = rotate_extrude()(mid_cone)
 
         self.cone = rotate_extrude()(nose)
 
@@ -128,6 +134,8 @@ class InvertedTangentOgiveNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _2d_nosecone(length - thickness, radius - thickness)
+            mid_cone = _2d_nosecone(length - thickness/2., radius - thickness/2.)
+            self.mid_cone = rotate_extrude()(mid_cone)
 
         self.cone = rotate_extrude()(nose)
 
@@ -158,6 +166,8 @@ class BluntedTangentOgiveNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _2d_nosecone(length - thickness, radius - thickness, blunt_radius)
+            mid_cone = _2d_nosecone(length - thickness/2., radius - thickness/2., blunt_radius)
+            self.mid_cone = rotate_extrude()(mid_cone)
         self.cone = rotate_extrude()(nose)
 
 
@@ -182,6 +192,8 @@ class SecantOgiveNoseCone(NoseCone):
         if self.thickness:
             thickness = self.thickness * MM2IN
             nose -= _2d_nosecone(length - thickness, radius - thickness, rho - thickness)
+            mid_cone = _2d_nosecone(length - thickness/2., radius - thickness/2., rho-thickness/2.)
+            self.mid_cone = rotate_extrude()(mid_cone)
         self.cone = rotate_extrude()(nose)
 
 

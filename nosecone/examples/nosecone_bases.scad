@@ -1,4 +1,4 @@
-use </Users/hlu/Documents/OpenSCAD/libraries/threads.scad>
+use <threads.scad>
 $fn=100;
 
 
