@@ -13,7 +13,7 @@ import os
 from solid import *
 from solid.utils import up, down, left, forward
 
-from nosecone import NoseCone, FunctionBasedNoseCone
+from .nosecone import NoseCone, FunctionBasedNoseCone
 from misc import utils
 
 MM2IN = 25.4

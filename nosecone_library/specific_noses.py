@@ -1,4 +1,4 @@
-from nosecone.standard_nosecones import EllipticalNoseCone
+from nosecone.standard_nosecones import EllipticalNoseCone, TangentOgiveNoseCone
 from nosecone.nosecone_bases import HollowBase
 from nosecone.nosecone_threaded_bases import ThreadedBaseOutset
 from bodytubes import *
@@ -18,6 +18,10 @@ class BNC5V(EllipticalNoseCone):
 class BNC50J(EllipticalNoseCone):
     def __init__(self, shoulder=0.5, thickness=None, **kwargs):
         super(BNC50J, self).__init__(length=1.37, shoulder=shoulder, bodytube=estes.bt50, thickness=thickness, **kwargs)
+
+class BNC50K(TangentOgiveNoseCone):
+    def __init__(self, shoulder=0.5, thickness=None, **kwargs):
+        super(BNC50K, self).__init__(length=2.75, shoulder=shoulder, bodytube=estes.bt50, thickness=thickness, **kwargs)
 
 
 if __name__ == '__main__':
