@@ -12,11 +12,11 @@ from solid import cylinder, scad_render, translate, union
 
 def to_mm(v, default=None, safe=False):
     if v is None:
+        if safe:
+            return None
         if default is None:
             raise ValueError("Value must be integer")
         v = default
-        if safe:
-            return None
     return v * 25.4
 
 
