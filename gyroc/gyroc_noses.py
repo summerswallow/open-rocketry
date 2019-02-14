@@ -1,10 +1,11 @@
-from nosecone_library.specific_noses import BNC20B
-from bodytubes.semroc import bt5, bt2, bt50, bt30, bt55, bt60,bt70, bt80
+import os
 
+from bodytubes.modelrockets_us import _3_00
+from bodytubes.semroc import bt5, bt2, bt50, bt30, bt55, bt60, bt70, bt80, bt40
 from misc import utils
 from nosecone.nosecone_bases import HollowBase
 from nosecone.nosecone_threaded_bases import ScrewInBase, ThreadedBaseOutsetScrewInBase
-import os
+from nosecone_library.specific_noses import BNC20B
 
 basedir = os.path.dirname(__file__)
 
@@ -20,6 +21,9 @@ utils.render_to_file(nc.cone, os.path.join(basedir, "nosecones", "bt20_nose.scad
 nc = BNC20B(scale_bodytube=bt30, thickness = 1/16., shoulder=0.5)
 nc = HollowBase(nc, shoulder=0.5625)
 utils.render_to_file(nc.cone, os.path.join(basedir, "nosecones", "bt30_nose.scad"))
+nc = BNC20B(scale_bodytube=bt40, thickness = 1/16., shoulder=0.5)
+nc = HollowBase(nc, shoulder=0.5625)
+utils.render_to_file(nc.cone, os.path.join(basedir, "nosecones", "bt40_nose.scad"))
 nc = BNC20B(scale_bodytube=bt50, thickness = 1/16., shoulder=0.5)
 nc = HollowBase(nc, shoulder=0.625)
 utils.render_to_file(nc.cone, os.path.join(basedir, "nosecones", "bt50_nose.scad"))
@@ -44,3 +48,9 @@ nc = ThreadedBaseOutsetScrewInBase(nc, shoulder=1.0, thread_height=.5, thread_di
 utils.render_to_file(nc.crosssection(nc.cone),os.path.join(basedir, "nosecones", "bt80_nose.scad"))
 utils.render_to_file(nc.crosssection(nc.center_mate), os.path.join(basedir, "nosecones", "bt80_nose_center.scad"))
 utils.render_to_file(nc.crosssection(nc.mate), os.path.join(basedir, "nosecones", "bt80_nose_base.scad"))
+nc = BNC20B(scale_bodytube=_3_00, thickness = 3/32., shoulder=0.5)
+nc = ThreadedBaseOutsetScrewInBase(nc, shoulder=1.5, thread_height=1., thread_diameter=_3_00.inner_diameter-.2, lower_tpi=6, upper_tpi=8)
+utils.render_to_file(nc.cone,os.path.join(basedir, "nosecones", "3in_nose.scad"))
+utils.render_to_file(nc.center_mate, os.path.join(basedir, "nosecones", "3in_nose_center.scad"))
+utils.render_to_file(nc.mate, os.path.join(basedir, "nosecones", "3in_nose_base.scad"))
+
