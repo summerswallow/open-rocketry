@@ -12,4 +12,7 @@ class BodyTube(object):
         self.outer_diameter = float(od)
         self.inner_diameter = float(id_)
         assert(od>id_)
+        
+from . import estes
+from . import loc_precision
 

@@ -10,7 +10,6 @@
 import os
 from math import sqrt
 
-from flask import Flask
 from solid import *
 from solid.utils import up, down
 

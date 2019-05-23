@@ -1,5 +1,6 @@
 from solid import *
 from solid.utils import up, forward, down
+from .nosecone import NoseCone
 
 from misc.utils import AbstractClassError, disk, to_mm, render_to_file
 from bodytubes.semroc import bt50, bt55
