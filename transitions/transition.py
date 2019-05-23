@@ -8,6 +8,7 @@ class Transition(object):
         bt1 = kwargs.get('bodytube1')
         bt2 = kwargs.get('bodytube2')
         bt3 = kwargs.get('bodytube3')
+        fudge = to_mm(kwargs.get('fudge'), default=0.0)
         self.open_end = kwargs.get('open_end', False)
         self.r1= to_mm(kwargs.get('r1'),safe=True)
         self.r2= to_mm(kwargs.get('r2'),safe=True)
@@ -22,6 +23,8 @@ class Transition(object):
         self.shoulder= to_mm(kwargs.get('shoulder'),default=0.5)
         self.shoulder1 = to_mm(kwargs.get('shoulder1'),safe=True)
         self.shoulder2 = to_mm(kwargs.get('shoulder2'),safe=True)
+        self.r1-=fudge
+        self.r4-=fudge
         if self.shoulder1 is None:
             self.shoulder1 = self.shoulder
         if self.shoulder2 is None:
@@ -41,7 +44,7 @@ class Transition(object):
                 self.transition+=cylinder(h=self.thickness, r=self.r1)+ up(self.shoulder1+self.height+self.shoulder2-self.thickness)(cylinder(h=self.thickness, r=self.r4))
                 if bt3:
                     self.transition+=cylinder(h=self.shoulder1+self.height+self.shoulder2, r=to_mm(bt3.outer_diameter/2.0)+self.thickness)
-                    self.transition-=cylinder(h=self.shoulder1+self.height+self.shoulder2, r=to_mm(bt3.outer_diameter/2.0))
+                    self.transition-=cylinder(h=self.shoulder1+self.height+self.shoulder2, r=to_mm(bt3.outer_diameter/2.0)+fudge)
 
     def render(self):
         return 

@@ -13,7 +13,7 @@ from solid import square, cylinder, hull, scale, linear_extrude, polygon, union,
 from solid.utils import up
 
 from misc import utils
-from nosecone import DerivativeNoseCone, NoseCone
+from .nosecone import DerivativeNoseCone, NoseCone
 from misc.utils import to_mm
 
 
@@ -76,7 +76,7 @@ class StarNoseCone(MorphedNoseCone):
         outer = to_mm(outer, self.outer_diameter / 4.)
         inner = to_mm(inner, self.outer_diameter / 8.)
         out = []
-        for i in xrange(0, points):
+        for i in range(0, points):
             alpha = i * 2. * pi / points
             p = polygon([[0, 0], [inner * cos(alpha - pi / points), inner * sin(alpha - pi / points)],
                          [outer * cos(alpha), outer * sin(alpha)],

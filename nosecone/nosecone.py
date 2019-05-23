@@ -42,12 +42,13 @@ class NoseCone(object):
             self.outer_diameter = kwargs['scale_bodytube'].outer_diameter
             self.inner_diameter = kwargs['scale_bodytube'].inner_diameter
             self.length *= self.outer_diameter / orig_outer
-            print "New Length: {} in".format(self.length)
+            print ("New Length: {} in".format(self.length))
 
 
         self.thickness = thickness
 
-
+        fudge = kwargs.get('fudge', 0.0)
+        self.inner_diameter -= fudge
         self.cone = None
 
     def slice(self, thickness, offset=0):
@@ -69,7 +70,7 @@ class NoseCone(object):
         outer_radius = to_mm(self.outer_diameter/2.)
         inner_radius = to_mm(self.inner_diameter/2.)
 
-        print width
+  
         test = up(thickness)(cylinder(h=thickness, r=inner_radius)) + cylinder(h=thickness, r=outer_radius)
         if width:
             test -= cylinder(h=thickness*2, r=outer_radius-width)
@@ -85,7 +86,7 @@ class FunctionBasedNoseCone(NoseCone):
         def _2d_nosecone(length, radius, **kwargs):
             return polygon([[0, 0]] + [[self.func(length * float(x) / self.resolution, length, radius, **kwargs),
                                         length - length * float(x) / self.resolution] for x in
-                                       xrange(0, self.resolution + 1)])
+                                       range(0, self.resolution + 1)])
 
         params = self.process_params(kwargs)
 
@@ -119,5 +120,5 @@ class NoseConeWithBase(DerivativeNoseCone):
         self.cone = cone
 
     def slice(self, cone, thickness, offset=0):
-        print cone, thickness, offset
+        print (cone, thickness, offset)
         return hull()(cone * up(offset)(disk(self.outer_diameter * 3, thickness / MM2IN)))

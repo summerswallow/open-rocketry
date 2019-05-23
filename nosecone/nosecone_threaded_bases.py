@@ -7,7 +7,7 @@
 #
 # ==================
 
-from nosecone import NoseConeWithBase
+from .nosecone import NoseConeWithBase
 from misc.threaded import Threaded
 from misc.utils import to_mm, to_inch
 from solid.utils import up, down

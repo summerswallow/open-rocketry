@@ -14,7 +14,7 @@ from flask import Flask
 from solid import *
 from solid.utils import up, down
 
-from nosecone import NoseConeWithBase
+from .nosecone import NoseConeWithBase
 from misc.utils import to_mm, to_inch
 
 MM2IN = 25.4

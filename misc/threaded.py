@@ -2,7 +2,7 @@ import os
 
 import solid
 
-from utils import to_inch
+from .utils import to_inch
 
 
 class EnglishThread(solid.IncludedOpenSCADObject):

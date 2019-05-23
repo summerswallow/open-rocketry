@@ -7,7 +7,6 @@
 #
 # ==================
 
-from flask import Flask
 from math import sqrt, atan, acos, cos, sin, fabs, pi
 import os
 from solid import *

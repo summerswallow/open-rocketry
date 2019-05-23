@@ -13,9 +13,3 @@ class BodyTube(object):
         self.inner_diameter = float(id_)
         assert(od>id_)
 
-import apogee
-import balsa_machining
-import estes
-import loc_precision
-import modelrockets_us
-import semroc

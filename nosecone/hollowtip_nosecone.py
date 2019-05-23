@@ -11,7 +11,7 @@ from solid import sphere, hull, cylinder
 from solid.utils import up
 
 from misc import utils
-from nosecone import DerivativeNoseCone
+from .nosecone import DerivativeNoseCone
 from misc.utils import to_mm
 
 
