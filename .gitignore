@@ -9,3 +9,4 @@ include/
 test.scad
 .Python
 .idea
+*.scad
