@@ -53,8 +53,10 @@ class NoseCone(object):
 
         self.thickness = thickness
 
-        fudge = kwargs.get('fudge', 0.0)
-        self.inner_diameter -= fudge
+        fudge_inner = kwargs.get('fudge_inner', 0.0)
+        fudge_outer = kwargs.get('fudge_outer', 0.0)
+        self.inner_diameter -= fudge_inner
+        self.outer_diameter += fudge_outer
         self.cone = None
 
     def slice(self, thickness, offset=0):

@@ -30,9 +30,9 @@ class Coupler(Threaded):
         if 'inner_bodytube' in kwargs:
             o_d = kwargs['inner_bodytube'].outer_diameter
 
-        if 'fudge' in kwargs:
-            i_d -= kwargs.get('fudge')
-            o_d += kwargs.get('fudge')
+
+        i_d -= kwargs.get('fudge_inner',0.0)
+        o_d += kwargs.get('fudge_outer',0.0)
 
         i_r = to_mm(i_d/2.)
         o_r = to_mm(o_d/2.)

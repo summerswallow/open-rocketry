@@ -232,6 +232,26 @@ class PowerSeriesNoseCone(FunctionBasedNoseCone):
         size = (self.length + self.outer_diameter) * 2 * MM2IN
         return object * forward(size / 2)(cube(size, center=True));
 
+class CylindricalNoseCone(NoseCone):
+    """
+    This is good for fit testing not really intended for actual nose cone 
+    """
+    def __init__(self, length, thickness=None, **kwargs):
+        super(CylindricalNoseCone, self).__init__(length, thickness, **kwargs)
+
+        def _solid_nose(length, radius):
+            return cylinder(h=length, r=radius)
+
+        length = self.length * MM2IN
+        radius = self.outer_diameter * MM2IN / 2
+        nose = _solid_nose(length, radius)
+        if self.thickness:
+            thickness = self.thickness * MM2IN
+            if kwargs.pop('open_top',False):
+                nose -= _solid_nose(length , radius - thickness)
+            else:
+                nose -= _solid_nose(length- thickness, radius - thickness)
+        self.cone = nose
 
 if __name__ == '__main__':
     from bodytubes.semroc import bt20
