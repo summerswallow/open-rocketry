@@ -24,6 +24,12 @@ class NoseCone(object):
     resolution = 50
 
     def __init__(self, length, thickness=None, **kwargs):
+        """
+
+        :param length: Length of nosecone
+        :param thickness:
+        :param kwargs:
+        """
         if 'bodytube' in kwargs:
             self.outer_diameter = kwargs['bodytube'].outer_diameter
             self.inner_diameter = kwargs['bodytube'].inner_diameter

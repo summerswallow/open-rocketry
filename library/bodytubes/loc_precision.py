@@ -1,15 +1,15 @@
 from . import BodyTube
 
-_1_52 = BodyTube(1.625, 1.52)
-_2_14 = BodyTube(2.26, 2.14)
-_2_56 = BodyTube(2.63, 2.56)
+_1_52 = BodyTube(1.625, 1.52, "LOC BT-1.52")
+_2_14 = BodyTube(2.26, 2.14, "LOC 2.14")
+_2_56 = BodyTube(2.63, 2.56, "LOC 2.56")
+"""
 _3_00 = BodyTube(3.1, 3.0)
 _3_90 = BodyTube(4.0, 3.9)
 _5_38 = BodyTube(5.54, 5.38)
 _7_51 = BodyTube(7.675, 7.51)
 lbt50 = BodyTube(1, 0.95)
 
-"""
 <option value="169-1.6400000">_/Precision - BT-1.52</option>
 <option value="166-1.0000000">_/Precision - MMT-0.95</option>
 <option value="167-1.2100000">_/Precision - MMT-1.14</option>
@@ -28,8 +28,8 @@ lbt50 = BodyTube(1, 0.95)
 <option value="182-5.3800000">_/Precision - TC-5.38</option>
 <option value="184-7.5100000">_/Precision - TC-7.51</option>
 <option value="189-178.0000000">_/Precision - TWT 7.01</option>
-"""
-# takne from Apogee
+# taken from Apogee
 
 mmthd3_000 = BodyTube(3.162, 3)
 mmthd3_898 = BodyTube(4.02, 3.9)
+"""
