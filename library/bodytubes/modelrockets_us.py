@@ -1,4 +1,4 @@
-from . import BodyTube
+from . import BodyTube, LaunchLug
 
 _2_56 = BodyTube(2.630, 2.560, "ModelRockets 2.56")
 _24mm = BodyTube(1.00, .950, "ModelRockets 24mm")
@@ -15,3 +15,4 @@ bt55 = BodyTube(1.325, 1.283, "ModelRockets BT-55")
 bt60 = BodyTube(1.645, 1.595, "ModelRockets BT-60")
 bt70 = BodyTube(2.217, 2.180, "ModelRockets BT-70")
 bt80 = BodyTube(2.620, 2.558, "ModelRockets BT-80")
+ll_18 = LaunchLug(.180, .160, "ModelRockets 1/8 Launch Lug")

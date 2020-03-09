@@ -1,9 +1,8 @@
 FROM jupyter/scipy-notebook
 USER root
-RUN conda install -c defaults qtconsole  pillow
 RUN conda install plotly jupyter_contrib_nbextensions numpy-stl pythreejs
+RUN conda install qtconsole  pillow
 RUN apt update
-RUN pip install python-jose s3contents boto3 snowflake-connector-python snowflake-sqlalchemy plotly_express 
 RUN apt install git -y
 RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:openscad/releases 
@@ -22,8 +21,6 @@ RUN chown $NB_USER /usr/local/share/jupyter
 #RUN jupyter lab build
 RUN apt install emacs -y
 RUN pip install viewscad
-#COPY start-notebook.sh /usr/local/bin/
-COPY openssl.cnf /etc/ssl/
 USER $NB_USER
 RUN touch .rnd
 CMD ["start-notebook.sh", "--NotebookApp.base_url=/notebook/"]

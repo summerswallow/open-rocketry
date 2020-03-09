@@ -1,4 +1,4 @@
-from . import BodyTube
+from . import BodyTube, LaunchLug
 
 _10063 = BodyTube(0.544, 0.518, "Apogee 10063")
 _10086 = BodyTube(0.736, 0.71, "Apogee 10086")
@@ -47,3 +47,4 @@ _11013 = BodyTube(2.63, 2.56, "Apogee 11013")
 _11017 = BodyTube(3.1, 3.0, "Apogee 11017")
 _11021 = BodyTube(4.0, 3.9, "Apogee 11021")
 gs002 = BodyTube(0.882, 0.865, "Apogee gs002")
+ll_18 = LaunchLug(.142, 0.162, "Apogee 1/8 Launch Lug")

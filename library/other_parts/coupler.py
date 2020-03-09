@@ -30,9 +30,15 @@ class Coupler(Threaded):
         if 'inner_bodytube' in kwargs:
             o_d = kwargs['inner_bodytube'].outer_diameter
 
+<<<<<<< Updated upstream:library/other_parts/coupler.py
 
         i_d -= kwargs.get('fudge_inner',0.0)
         o_d += kwargs.get('fudge_outer',0.0)
+=======
+        if 'fudge' in kwargs:
+            i_d -= kwargs.get('fudge')
+            o_d += kwargs.get('fudge')
+>>>>>>> Stashed changes:other_parts/coupler.py
 
         i_r = to_mm(i_d/2.)
         o_r = to_mm(o_d/2.)
@@ -55,9 +61,15 @@ from bodytubes.semroc import bt50, bt20, bt5
 #utils.render_to_file(Coupler(2, bodytube=bt50, threads_per_inch=6, inner_bodytube=bt5, thickness=1 / 16., fudge=0.01).female, "test2.scad")
 #utils.render_to_file(Coupler(2, bodytube=_29mm, threads_per_inch=10, inner_bodytube=bt20, thickness=1 / 16.).male, "test.scad")
 #utils.render_to_file(Coupler(2, bodytube=_29mm, threads_per_inch=10, inner_bodytube=bt20, thickness=1 / 16.).female, "test2.scad")
+<<<<<<< Updated upstream:library/other_parts/coupler.py
 utils.render_to_file(Coupler(2, bodytube=_29mm, threads_per_inch=10, inner_bodytube=bt20, thickness=1 / 16.,fudge=0.01).fittest, "29_fit.scad")
 utils.render_to_file(Coupler(2, bodytube=bt50, threads_per_inch=6, inner_bodytube=bt5, thickness=1 / 16., fudge=0.01).fittest, "bt50_fit.scad")
 
 utils.render_to_file(Coupler(2, bodytube=bt20, threads_per_inch=20, inner_bodytube=bt5, thickness=1 / 16., fudge=0.01).fittest, "bt20_fit.scad")
 
+=======
+utils.render_to_file(Coupler(2, bodytube=_29mm, threads_per_inch=10, inner_bodytube=bt20, thickness=1 / 16.,fudge=0.015).fittest, "29_fit.scad")
+utils.render_to_file(Coupler(2, bodytube=bt50, threads_per_inch=6, inner_bodytube=bt5, thickness=1 / 16., fudge=0.015).fittest, "bt50_fit.scad")
+>>>>>>> Stashed changes:other_parts/coupler.py
 
+utils.render_to_file(Coupler(2, bodytube=bt20, threads_per_inch=20, inner_bodytube=bt5, thickness=1 / 16., fudge=0.015).fittest, "bt20_fit.scad")
