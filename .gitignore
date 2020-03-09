@@ -10,3 +10,5 @@ test.scad
 .Python
 .idea
 *.scad
+.ipynb_checkpoints
+pip-selfcheck.json
